@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="txt_away">You are away from location</string>
+    <string name="enter_code">Enter code</string>
+    <string name="txt_enter_your_number">Enter your number</string>
+</resources>

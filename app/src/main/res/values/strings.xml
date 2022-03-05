@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">DemoApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="ok">Ok</string>
+    <string name="txt_away">You are away from location</string>
+    <string name="txt_inside">You are Inside</string>
+    <string name="txt_location_not_saved">Location not saved in local. Kindly save atleast one location</string>
+    <string name="txt_source">Source</string>
+    <string name="error_validate_number_required">Valid number is required</string>
+    <string name="enter_code">Enter code</string>
+    <string name="txt_sign_in">Sign In</string>
+    <string name="txt_enter_your_number">Enter your number</string>
+</resources>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#147EFB</color>
+    <color name="colorPrimaryDark">#0053C7</color>
+    <color name="colorAccent">#3C82E3</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_100">#2675D1</color>
+    <color name="black">#000000</color>
+    <color name="black100">#3A3A3C</color>
+    <color name="black200">#272A33</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorRed">#FC3D39</color>
+    <color name="colorRed_100">#FF6229</color>
+    <color name="colorGreen_100">#219653</color>
+    <color name="light_colorGreen_100">#26219653</color>
+    <color name="colorGreen">#2D993F</color>
+    <color name="colorGreen_200">#2D993F</color>
+    <color name="colorBlueOpacity10">#1957AAF3</color>
+    <color name="dialog_background">#59ffffff</color>
+    <color name="colorGray100">#f5f5f5</color>
+    <color name="colorGray200">#EEEEEE</color>
+    <color name="colorGray300">#E0E0E0</color>
+    <color name="colorGray400">#BDBDBD</color>
+    <color name="colorGray500">#9E9E9E</color>
+    <color name="colorGray600">#757575</color>
+    <color name="colorGray700">#616161</color>
+    <color name="colorGray900">#2B2B2B</color>
+    <color name="colorGray800">#9F9F9F</color>
+
+    <color name="colorProfileGray">#C4C4C4</color>
+    <color name="red">#FC3D39</color>
+    <color name="measuring_shandow_bg">#661463eb</color>
+
+    <color name="progress_circle_color">#669B9CA0</color>
+    <color name="mild_blue_card_color">#EDF5FF</color>
+    <color name="middle_circular_progress_color">#B58800</color>
+    <color name="middle_circular_progress_text_color">#9F8123</color>
+
+    <color name="profile_bg">#FFEFEFF0</color>
+    <color name="black_transparent">#80000000</color>
+    <color name="black_transparent_lite">#32000000</color>
+
+    <color name="red_m">@color/black</color>
+    <color name="red_b">@color/black</color>
+    <color name="color_ecg_grid_1mm">#e1d5dd</color>
+    <color name="color_ecg_grid_5mm">#dab3c3</color>
+    <color name="color_ecg_line">#30b849</color>
+    <color name="dialogTransparent100">#3E000000</color>
+    <color name="fabTransparentBg">#80000000</color>
+    <color name="fabTransparentWBg">#F2FAFAFA</color>
+
+    <color name="bg_color">@color/white</color>
+    <color name="colorGray">#ff686868</color>
+    <color name="colorViolet">#9B51E0</color>
+
+    <!--Color picker dialog colors-->
+    <color name="colorPicker1">#E9637B</color>
+    <color name="colorPicker8">#9B51E0</color>
+
+    <color name="colorDisable">#9F9F9F</color>
+    <color name="colorRipple">#2f9bf5</color>
+    <color name="colorCardRipple">#4D2F9BF5</color>
+    <color name="colorProgressTransparent">#1A2F9BF5</color>
+
+    <!-- BP Color Picker -->
+    <color name="bp_graph_1">#4bc0b5</color>
+    <color name="bp_graph_2">#78bb66</color>
+    <color name="bp_graph_3">#f7a649</color>
+    <color name="bp_graph_4">#f07b7f</color>
+    <color name="bp_graph_5">#ed5a69</color>
+
+    <!-- BP Graph Value -->
+    <color name="graph_bp_line">#979797</color>
+    <color name="graph_bp_normal">#53D769</color>
+    <color name="graph_bp_low">#F2C94C</color>
+    <color name="graph_bp_high">#FC3D39</color>
+    <color name="graph_bp_unknown">#f7a649</color>
+
+    <color name="orange_light">#ffffbb33</color>
+    <color name="add_routine_bg">#EFEFF0</color>
+
+    <color name="text_primary_light">#4C4C4C</color>
+    <color name="pending_text_color">#9F8123</color>
+    <color name="empty_profile_background">@color/colorPrimaryDark</color>
+    <color name="empty_profile_name_color">@color/white</color>
+
+    <color name="summary_heart_color">#FC3D39</color>
+    <color name="male_color">#6CADEF</color>
+    <color name="navbar_icon_active">#011E47</color>
+    <color name="navbar_icon_inactive">#404541</color>
+    <color name="navbar_text_active">#011E46</color>
+    <color name="navbar_text_inactive">#404541</color>
+    <color name="navbar_ripple_inactive">#C4C4C4</color>
+    <color name="navbar_ripple_active">#270053C7</color>
+
+    <color name="symptoms_button_color">#0A84FF</color>
+    <color name="symptoms_button_red_color">#FC3D39</color>
+
+    <color name="symptoms_home_color">#61DC7F</color>
+    <color name='colorBlackTransparent'>#40000000</color>
+    <color name='colorCardBg'>#FCF3ED</color>
+    <color name="light_grey">#EFEFF0</color>
+    <color name="yellow">#FECB2E</color>
+
+    <color name="color_light_blue_qb">#87cefa</color>
+
+    <color name="divider_color">#e0e0e0</color>
+
+    <color name="color_blue_qb">#046ad0</color>
+
+    <color name="transparent">#00ffffff</color>
+
+
+    <color name="rem_sleep">#71f3f3</color>
+    <color name="light_sleep">#5ac9f9</color>
+    <color name="awake_sleep">#ebebeb</color>
+    <color name="deep_sleep">#0053C7</color>
+    <color name="navigation_bar_color">#eaf1fb</color>
+    <color name="navigation_bar_text_color">#070707</color>
+
+    <color name="doctor_blue_bg">#e5edf6</color>
+    <color name="doctor_green_bg">#e9f7eb</color>
+    <color name="doctor_green_txt">#3EA04E</color>
+    <color name="mid_grey">#767680</color>
+    <color name="measurement_start_gradient">#8BE6B7</color>
+    <color name="measurement_end_gradient">#5993F1</color>
+    <color name="battery_red">#b00020</color>
+    <color name="text_gray">#424242</color>
+    <color name="lite_primary_color_recycle_item">#E7E9EA</color>
+</resources>
