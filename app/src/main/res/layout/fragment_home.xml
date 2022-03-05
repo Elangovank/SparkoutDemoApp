@@ -76,7 +76,8 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:text="Getting location..."
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/addresstext"
@@ -90,6 +91,21 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:text="Please wait"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2dp"
+                android:background="@drawable/bg_circle_blue"
+                android:fontFamily="@font/mo_me"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingTop="@dimen/_2dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="@dimen/_2dp"
+                android:text="Save"
                 android:textColor="@android:color/white" />
 
             <ImageView

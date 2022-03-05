@@ -25,7 +25,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -126,9 +128,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         addresstext!!.text = it
                     }
 
-                    addresstext!!.setOnClickListener {
+                    save!!.setOnClickListener {
                         val data = MapModel(
-                            mobile = "9791",
+                            mobile = FirebaseAuth.getInstance().currentUser?.phoneNumber!!,
                             lat = mCenterLatLong!!.latitude.toString(),
                             lng = mCenterLatLong!!.longitude.toString(),
                             address = address!!

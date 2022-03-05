@@ -2,12 +2,19 @@ package com.elango.demoapp.ui.home
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.elango.demoapp.R
@@ -25,6 +32,7 @@ class UserFragment : Fragment(), CommonListener {
 
     var data: ArrayList<Int> = arrayListOf()
     val viewModel: UserViewModel by viewModels()
+    private var progressDialog: Dialog? = null
     lateinit var userAdapter: UserAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +64,7 @@ class UserFragment : Fragment(), CommonListener {
         viewModel._UserDetailsLD.observe(requireActivity(),
             {
                 it?.let {
+                    hideProgressDialog()
                     ShowUserDetailsDialog(it)
                 }
 
@@ -72,6 +81,7 @@ class UserFragment : Fragment(), CommonListener {
     }
 
     override fun click(value: Int) {
+        showProgressDialog()
         viewModel.getUserDetails(value.toString())
     }
 
@@ -107,6 +117,32 @@ class UserFragment : Fragment(), CommonListener {
             builder.setView(view)
             custom_dialog = builder.create()
             custom_dialog!!.show()
+        }
+    }
+
+    fun showProgressDialog() {
+        //  hideProgressDialog()
+        progressDialog = Dialog(requireContext())
+        val inflater =
+            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.dialog_progress_custom, null)
+        val progressBar = view.findViewById<ProgressBar>(R.id.dialog_progress_bar)
+        progressBar.indeterminateDrawable.setColorFilter(
+            ContextCompat.getColor(requireContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN
+        )
+        progressDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog!!.setContentView(view)
+        progressDialog!!.setCancelable(false)
+        progressDialog!!.show()
+    }
+
+    fun hideProgressDialog() {
+        try {
+            if (progressDialog != null) {
+                progressDialog!!.dismiss()
+            }
+        } catch (e: Exception) {
         }
     }
 }
