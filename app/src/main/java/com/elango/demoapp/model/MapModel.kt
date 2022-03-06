@@ -26,7 +26,7 @@ interface MapDataDAO {
     @Insert
     fun insertAll(mData: ArrayList<MapModel>)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(mData: MapModel)
 
     @Delete

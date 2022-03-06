@@ -12,4 +12,6 @@
     <string name="enter_code">Enter code</string>
     <string name="txt_sign_in">Sign In</string>
     <string name="txt_enter_your_number">Enter your number</string>
+    <string name="msg_insert_successfully">Saved Successfully</string>
+    <string name="msg_location_not_valid">Invalid location</string>
 </resources>

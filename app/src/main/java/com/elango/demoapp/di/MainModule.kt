@@ -4,6 +4,8 @@ import android.content.Context
 import com.elango.demoapp.api.Api
 import com.elango.demoapp.localstorage.AppDataBase
 import com.elango.demoapp.localstorage.DatabaseClient
+import com.elango.demoapp.model.MapDataDAO
+import com.elango.demoapp.repository.MapRepository
 import com.elango.demoapp.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -45,7 +47,7 @@ object MainModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit( @Named("BaseUrl") baseURL : String): Retrofit {
+    fun provideRetrofit(@Named("BaseUrl") baseURL: String): Retrofit {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
@@ -64,6 +66,10 @@ object MainModule {
     @Provides
     fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
+
+    @Singleton
+    @Provides
+    fun provideMapRepo(@Named("LocationDAO")locationDAO: MapDataDAO): MapRepository = MapRepository(locationDAO)
 
 
 }

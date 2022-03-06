@@ -7,19 +7,21 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.elango.demoapp.R
-import com.elango.demoapp.model.MapDataDAO
 import com.elango.demoapp.model.MapModel
+import com.elango.demoapp.ui.home.viewmodel.HomeViewmodel
 import com.elango.demoapp.util.LocationLiveData
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,15 +31,12 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
-import javax.inject.Inject
-import javax.inject.Named
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnMapReadyCallback {
-    @Inject
-    @Named("LocationDAO")
-    lateinit var mLocationDao: MapDataDAO
+
+    val viewModel: HomeViewmodel by viewModels()
 
     var mContext: Context? = null
     var mLocationMarkerText: TextView? = null
@@ -51,6 +50,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     val REQUEST_CODE = 101
 
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +63,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         mContext = requireContext()
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext!!)
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -73,6 +76,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mLocationAddress = view.findViewById(R.id.Address)
         mLocationText = view.findViewById(R.id.Locality)
 
+        if (ActivityCompat.checkSelfPermission(
+                mContext!!,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                mContext!!,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mFusedLocationClient!!.lastLocation
+            .addOnSuccessListener { location ->
+                currentLocation = location
+                setCurrentLocation()
+                // getting the last known or current location
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    mContext, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         fetchLocation()
     }
 
@@ -104,6 +129,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             val latLng = LatLng(it.latitude, it.longitude)
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+            mCenterLatLong = LatLng(it.latitude, it.longitude)
 
         }
     }
@@ -129,16 +155,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     save!!.setOnClickListener {
-                        val data = MapModel(
-                            mobile = FirebaseAuth.getInstance().currentUser?.phoneNumber!!,
-                            lat = mCenterLatLong!!.latitude.toString(),
-                            lng = mCenterLatLong!!.longitude.toString(),
-                            address = address!!
-                        )
 
-                        mLocationDao.insert(data)
-
-                        Log.e("Data", mLocationDao.getMapDetails().toString())
+                        mCenterLatLong?.let {
+                            if (it.latitude != 0.0 && it.longitude != 0.0) {
+                                val data = MapModel(
+                                    mobile = FirebaseAuth.getInstance().currentUser?.phoneNumber!!,
+                                    lat = mCenterLatLong!!.latitude.toString(),
+                                    lng = mCenterLatLong!!.longitude.toString(),
+                                    address = address!!
+                                )
+                                viewModel.insertMapData(data)
+                                Toast.makeText(
+                                    activity,
+                                    requireContext().getString(R.string.msg_insert_successfully),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    activity,
+                                    requireContext().getString(R.string.msg_location_not_valid),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -146,7 +185,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
 
         })
-
 
     }
 
