@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment
 import com.elango.demoapp.R
 import com.elango.demoapp.model.MapDataDAO
 import com.elango.demoapp.model.MapModel
-import com.elango.demoapp.util.LocationLiveData
+import com.elango.demoapp.util.GPSTracker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_notification.*
 import javax.inject.Inject
@@ -64,7 +64,7 @@ class NotificationFragment : Fragment() {
 
         val list = mMapDao.getMapDetails()
         if (!list.isNullOrEmpty() && list.size > 0) {
-            data = list.get(list.size-1)
+            data = list.get(list.size - 1)
             fetchLocation()
         } else {
             statusTxt.text = getString(R.string.txt_location_not_saved)
@@ -87,27 +87,24 @@ class NotificationFragment : Fragment() {
             return
         }
 
-        val aLocationLiveData = LocationLiveData(activity)
-        aLocationLiveData.observe(viewLifecycleOwner) { location: Location ->
-            if (this::data.isInitialized) {
+        val loc = GPSTracker(requireActivity())
 
-                val startPoint = Location(getString(R.string.txt_source))
-                startPoint.latitude = data.lat.toDouble()
-                startPoint.longitude = data.lng.toDouble()
+        if (this::data.isInitialized) {
 
-                val endPoint = location
-
-                val distance = startPoint.distanceTo(endPoint).toDouble()
-
-                if (distance > 3000) {
-                    statusTxt.text = getString(R.string.txt_away)
-                    triggerNotification(getString(R.string.txt_away))
-                } else {
-                    statusTxt.text = getString(R.string.txt_inside)
-                    triggerNotification(getString(R.string.txt_inside))
-                }
+            val startPoint = Location(getString(R.string.txt_source))
+            startPoint.latitude = data.lat.toDouble()
+            startPoint.longitude = data.lng.toDouble()
+            val endPoint = loc.getLocation()
+            val distance = startPoint.distanceTo(endPoint).toDouble()
+            if (distance > 3000) {
+                statusTxt.text = getString(R.string.txt_away)
+                triggerNotification(getString(R.string.txt_away))
+            } else {
+                statusTxt.text = getString(R.string.txt_inside)
+                triggerNotification(getString(R.string.txt_inside))
             }
         }
+
     }
 
 

@@ -19,9 +19,7 @@ import androidx.fragment.app.viewModels
 import com.elango.demoapp.R
 import com.elango.demoapp.model.MapModel
 import com.elango.demoapp.ui.home.viewmodel.HomeViewmodel
-import com.elango.demoapp.util.LocationLiveData
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.elango.demoapp.util.GPSTracker
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -50,7 +48,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     val REQUEST_CODE = 101
 
-    private var mFusedLocationClient: FusedLocationProviderClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +61,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         mContext = requireContext()
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext!!)
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -76,6 +72,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mLocationAddress = view.findViewById(R.id.Address)
         mLocationText = view.findViewById(R.id.Locality)
 
+        val loc = GPSTracker(mContext!!)
+        currentLocation = loc.getLocation()
+
+
         if (ActivityCompat.checkSelfPermission(
                 mContext!!,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -86,18 +86,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         ) {
             return
         }
-        mFusedLocationClient!!.lastLocation
-            .addOnSuccessListener { location ->
-                currentLocation = location
-                setCurrentLocation()
-                // getting the last known or current location
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    mContext, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
         fetchLocation()
     }
 
@@ -115,21 +104,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             )
             return
         }
-
-        val aLocationLiveData = LocationLiveData(activity)
-        aLocationLiveData.observe(viewLifecycleOwner) { location: Location ->
-            currentLocation = location
-            setCurrentLocation()
-        }
         mapFragment.getMapAsync(this)
     }
 
     fun setCurrentLocation() {
-        currentLocation?.let {
-            val latLng = LatLng(it.latitude, it.longitude)
+        val loc = GPSTracker(mContext!!)
+        loc.getLatitude().let {
+            val latLng = LatLng(it, loc.getLongitude())
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
-            mCenterLatLong = LatLng(it.latitude, it.longitude)
+            mCenterLatLong = LatLng(it, loc.getLongitude())
 
         }
     }
@@ -137,6 +121,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(aMap: GoogleMap) {
         mMap = aMap
         setCurrentLocation()
+        if (ActivityCompat.checkSelfPermission(
+                mContext!!,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                mContext!!,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mMap.isMyLocationEnabled = true
 
         mMap.setOnCameraIdleListener(object : GoogleMap.OnCameraIdleListener {
             override fun onCameraIdle() {

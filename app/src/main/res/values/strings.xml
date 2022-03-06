@@ -14,4 +14,5 @@
     <string name="txt_enter_your_number">Enter your number</string>
     <string name="msg_insert_successfully">Saved Successfully</string>
     <string name="msg_location_not_valid">Invalid location</string>
+    <string name="msg_location_notification">It take first location saved in local database for validation</string>
 </resources>
